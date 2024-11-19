@@ -12,6 +12,8 @@
 #include "token_mapping.hpp"
 #include "lexer/lexer_parser.hpp"
 #include "lexer/parallel_lexer.hpp"
+#include "lexer/interpreter.hpp"
+#include "lexer.cuh"
 
 std::optional<std::string> read_input(const char *filename)
 {
@@ -77,35 +79,23 @@ int main() {
         input = std::move(maybe_input.value());
     }
 
-    std::cout << input << std::endl;
-
     if (lexer.has_value()) {
         lexer->parallel_lexer.dump_sizes(std::cout);
 
-        auto initial_states = lexer->parallel_lexer.initial_states;
-        // lexer->parallel_lexer.merge_table;
-        auto final_states = lexer->parallel_lexer.final_states;
+        auto cuda_lexer = new CudaLexer(lexer->parallel_lexer);
+        lexer::LexerInterpreter *interpreter = new lexer::LexerInterpreter(&lexer->parallel_lexer);
         
-        std::vector<const lexer::ParallelLexer::Transition *> trans(input.length());
-        for (int i = 0; i < trans.size(); i++) {
-            trans[i] = &initial_states[input[i]];
+        while (true) {
+            printf("Please input your filename:\n");
+            char filename[256];
+            scanf("%255s", filename);
+
+            if (auto maybe_input = read_input(filename)) {
+                input = std::move(maybe_input.value());
+            }
+
+            cuda_lexer->lex_cuda(input);
+            interpreter->lex_linear(input);
         }
-
-
-        std::vector<const lexer::ParallelLexer::Transition *> prefix(input.length() + 1);
-        std::vector<const lexer::Lexeme *> res(input.length());
-        prefix[0] = trans[0];
-        for (int i = 1; i < trans.size(); i++) {
-            prefix[i] = &lexer->parallel_lexer.merge_table(prefix[i - 1]->result_state, trans[i]->result_state);
-        }
-
-        prefix[trans.size()] = &lexer->parallel_lexer.merge_table(prefix[trans.size() - 1]->result_state, 0);
-
-        for (auto a: prefix) {
-            std::cout << a->produces_lexeme << " " << a->result_state << std::endl;
-        }
-        std::cout << final_states[5]->name << std::endl;
-        std::cout << final_states[24]->name << std::endl;
-        std::cout << final_states[32]->name << std::endl;
     }
 }

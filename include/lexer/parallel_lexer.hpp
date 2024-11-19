@@ -1,3 +1,6 @@
+#ifndef _LEXER_PARALLEL_LEXER
+#define _LEXER_PARALLEL_LEXER
+
 #include <memory>
 
 #include "lexer/fsa.hpp"
@@ -55,3 +58,5 @@ namespace lexer
         void dump_sizes(std::ostream& out) const;
     };
 }
+
+#endif

@@ -127,9 +127,9 @@ namespace lexer {
         // States indices of the DFA are mapped to the initial parallel states indices.
         {
             auto initial_states = std::vector<ParallelState>(FiniteStateAutomaton::MAX_SYM + 1, ParallelState(dfa.num_states()));
-            std::cout << dfa.num_states() << std::endl;
+            // std::cout << dfa.num_states() << std::endl;
             for (size_t src = 0; src < dfa.num_states(); ++src) {
-                std::cout << "src: " << src << ": " << dfa[src].transitions.size() << std::endl;
+                // std::cout << "src: " << src << ": " << dfa[src].transitions.size() << std::endl;
                 // if (dfa[src].lexeme) {
                 //     std::cout << dfa[src].lexeme->name << std::endl;
                 // }
@@ -162,7 +162,6 @@ namespace lexer {
             this->identity_state_index = enqueue(std::move(identity));
         }
         // std::cout << "identity_state_index: " << this->identity_state_index << std::endl;
-        this->dump_sizes(std::cout);
 
         auto merge = [&](StateIndex i, StateIndex j) {
             StateIndex result;
@@ -193,14 +192,14 @@ namespace lexer {
         }
 
 
-        std::cout << states.size() << std::endl;
-        for (int i = 0; i < states.size(); i++) {
-            for (int j = 0; j < states.size(); j++) {
-                if (this->merge_table(i, j).produces_lexeme) {
-                    std::cout << i << " " << j << std::endl;
-                }
-            }
-        }
+        // std::cout << states.size() << std::endl;
+        // for (int i = 0; i < states.size(); i++) {
+        //     for (int j = 0; j < states.size(); j++) {
+        //         if (this->merge_table(i, j).produces_lexeme) {
+        //             std::cout << i << " " << j << std::endl;
+        //         }
+        //     }
+        // }
 
         // Compute the final state mapping
         this->final_states.resize(seen.size(), nullptr);
