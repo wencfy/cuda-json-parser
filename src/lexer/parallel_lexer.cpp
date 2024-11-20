@@ -184,12 +184,17 @@ namespace lexer {
 
         // Repeatedly perform the merges until no new merge is added
         for (StateIndex i = 0; i < states.size(); ++i) {
+            if (i % 20) {
+                std::cout << "\rGenerating Merge Table" << std::string((i / 20) % 4, '.');
+                std::cout.flush();
+            }
             auto first = states[i];
             for (StateIndex j = 0; j < states.size(); ++j) {
                 merge(i, j);
                 merge(j, i);
             }
         }
+        std::cout << "\rDone!      \n";
 
 
         // std::cout << states.size() << std::endl;

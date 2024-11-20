@@ -26,8 +26,6 @@ namespace lexer {
         bool error = false;
 
         for (const auto& lexeme : this->lexemes) {
-            printf("\n%s: ", lexeme.name.c_str());
-            lexeme.regex->print(std::cout);
             if (!lexeme.regex->matches_empty())
                 continue;
 

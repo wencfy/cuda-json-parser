@@ -74,10 +74,6 @@ int main() {
     auto lexer = generate_lexer(tm, lexer_src);
 
     std::string input;
-    if (auto maybe_input = read_input("test.json"))
-    {
-        input = std::move(maybe_input.value());
-    }
 
     if (lexer.has_value()) {
         lexer->parallel_lexer.dump_sizes(std::cout);
@@ -86,12 +82,15 @@ int main() {
         lexer::LexerInterpreter *interpreter = new lexer::LexerInterpreter(&lexer->parallel_lexer);
         
         while (true) {
-            printf("Please input your filename:\n");
+            printf("Please input your filename: ");
             char filename[256];
             scanf("%255s", filename);
 
             if (auto maybe_input = read_input(filename)) {
                 input = std::move(maybe_input.value());
+                printf("---------------------------------------------\n");
+                printf("Lexing %s (%fkb) using cuda and cpu\n", filename, input.length() / 1024.0);
+                printf("---------------------------------------------\n");
             }
 
             cuda_lexer->lex_cuda(input);
