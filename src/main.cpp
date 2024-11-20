@@ -88,9 +88,9 @@ int main() {
 
             if (auto maybe_input = read_input(filename)) {
                 input = std::move(maybe_input.value());
-                printf("---------------------------------------------\n");
+                printf("--------------------------------------------------\n");
                 printf("Lexing %s (%fkb) using cuda and cpu\n", filename, input.length() / 1024.0);
-                printf("---------------------------------------------\n");
+                printf("--------------------------------------------------\n");
             }
 
             cuda_lexer->lex_cuda(input);
