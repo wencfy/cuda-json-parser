@@ -10,6 +10,7 @@ namespace lexer
 
     void LexerInterpreter::lex_linear(std::string_view input)
     {
+        mp.clear();
         clock_t start = clock();
         auto states = std::vector<ParallelLexer::StateIndex>();
 
