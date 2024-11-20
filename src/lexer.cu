@@ -82,6 +82,11 @@ void CudaLexer::map_trans()
 
     cudaDeviceSynchronize();
 
+    cudaError_t error = cudaGetLastError();
+    if (error != cudaSuccess) {
+        std::cerr << "CUDA error: " << cudaGetErrorString(error) << std::endl;
+    }
+
     cudaFree(d_input);
     cudaFree(d_initial_states);
 }
@@ -113,7 +118,13 @@ void CudaLexer::compute_prefix()
         prefix_step_kernel<<<num_blocks, block_size>>>(
             d_trans, d_prefix, d_merge_table, num_states, step_size, input.length(), N_THREADS
         );
+
         cudaDeviceSynchronize();
+        cudaError_t error = cudaGetLastError();
+        if (error != cudaSuccess) {
+            std::cerr << "CUDA error: " << cudaGetErrorString(error) << std::endl;
+        }
+
         auto tmp = d_trans;
         d_trans = d_prefix;
         d_prefix = tmp;
