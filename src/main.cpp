@@ -91,10 +91,10 @@ int main() {
                 printf("--------------------------------------------------\n");
                 printf("Lexing %s (%fkb) using cuda and cpu\n", filename, input.length() / 1024.0);
                 printf("--------------------------------------------------\n");
-            }
 
-            cuda_lexer->lex_cuda(input);
-            interpreter->lex_linear(input);
+                cuda_lexer->lex_cuda(input);
+                interpreter->lex_linear(input);
+            }
         }
     }
 }
