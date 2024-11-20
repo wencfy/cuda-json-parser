@@ -14,7 +14,7 @@ namespace lexer {
 
     struct FiniteStateAutomaton {
         using Symbol = uint8_t;
-        using StateIndex = size_t;
+        using StateIndex = unsigned short;
 
         static constexpr const size_t MAX_SYM = std::numeric_limits<Symbol>::max();
 
