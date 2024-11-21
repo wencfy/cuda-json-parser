@@ -194,7 +194,7 @@ namespace lexer {
                 merge(j, i);
             }
         }
-        std::cout << "\rDone!      \n";
+        std::cout << "\rDone!                    \n";
 
 
         // std::cout << states.size() << std::endl;
