@@ -14,7 +14,7 @@ CU_OBJECTS = $(CU_SOURCES:%.cu=$(BUILD_DIR)/%.o)
 
 OBJECTS = $(CPP_OBJECTS) $(CU_OBJECTS)
 
-TARGET = $(BUILD_DIR)/my_program
+TARGET = $(BUILD_DIR)/cuda_lexer
 
 all: $(TARGET)
 
